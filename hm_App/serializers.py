@@ -79,10 +79,10 @@ class SendPasswordResetEmailSerializer(serializers.Serializer):
             return attrs
         else:
             raise serializers.ValidationError(_("You are not a registered user"))
-
 class UserChangePasswordSerializer(serializers.Serializer):
     password         = serializers.CharField(max_length=255, style={'input_type':'password'}, write_only=True)
     confirm_password = serializers.CharField(max_length=255, style={'input_type':'password'}, write_only=True)
+
 
     class Meta:
         fields = ['password', 'confirm_password']
