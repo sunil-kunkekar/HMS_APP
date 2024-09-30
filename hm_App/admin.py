@@ -46,3 +46,7 @@ class UserAdmin(admin.ModelAdmin):
 
 # Register the User model with the custom UserAdmin
 admin.site.register(Custom_User, UserAdmin)
+
+
+admin.site.register(Patient)
+admin.site.register(MedicalRecord)

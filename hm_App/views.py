@@ -60,3 +60,52 @@ class UserProfileView(generics.RetrieveAPIView):
     def get_object(self):
         # Return the user instance for the currently authenticated user
         return self.request.user
+    
+# 4. Change Password View
+class ChangePasswordView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = UserChangePasswordSerializer(data=request.data, context={'user': request.user})
+        if serializer.is_valid():
+            return Response({'msg': 'Password changed successfully'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# 5. Send Password Reset Email View
+class SendPasswordResetEmailView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = SendPasswordResetEmailSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response({'msg': 'Password reset link sent. Please check your email.'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# 6. Password Reset View
+class UserPasswordResetView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, uid, token, *args, **kwargs):
+        serializer = UserPasswordResetSerializer(data=request.data, context={'uid': uid, 'token': token})
+        if serializer.is_valid():
+            return Response({'msg': 'Password reset successfully'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+from rest_framework import generics
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .models import Patient, MedicalRecord
+from .serializers import PatientSerializer, MedicalRecordSerializer
+
+class PatientViewSet(viewsets.ModelViewSet):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
+    permission_classes = [IsAuthenticated]  # Only authenticated users can access
+
+class MedicalRecordViewSet(viewsets.ModelViewSet):
+    queryset = MedicalRecord.objects.all()
+    serializer_class = MedicalRecordSerializer
+    permission_classes = [IsAuthenticated]  # Only authenticated users can access

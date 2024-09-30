@@ -63,3 +63,34 @@ class Custom_User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+
+from django.db import models
+from django.conf import settings  # Import settings to reference the custom user model
+
+class Patient(models.Model):
+    user          = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='patient')
+    first_name    = models.CharField(max_length=50)
+    last_name     = models.CharField(max_length=50)
+    date_of_birth = models.DateField()
+    email         = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=15, unique=True)
+    address     = models.TextField()
+    created_at  = models.DateTimeField(auto_now_add=True)
+    updated_at  = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+class MedicalRecord(models.Model):
+    patient     = models.ForeignKey(Patient, related_name='medical_records', on_delete=models.CASCADE)
+    record_date = models.DateField()
+    diagnosis   = models.TextField()
+    treatment   = models.TextField()
+    prescription_file = models.FileField(upload_to='prescriptions/', null=True, blank=True)
+    created_at        =  models.DateTimeField(auto_now_add=True)
+    updated_at        = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Record for {self.patient} on {self.record_date}"
