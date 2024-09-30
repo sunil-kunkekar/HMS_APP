@@ -8,7 +8,8 @@ router = DefaultRouter()
 
 # Since we are not using viewsets, we will manually add the paths
 urlpatterns = [
-    path('register/', RegisterView.as_view(), name='register'),
+    path('register/', UserRegistrationView_main.as_view(), name='register'),  # Registration endpoint
+    # path('register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('profile/', UserProfileView.as_view(), name='user_profile'),  # Add this line
 ]

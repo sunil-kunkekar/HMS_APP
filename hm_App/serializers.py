@@ -51,4 +51,4 @@ from .models import Custom_User
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Custom_User
-        fields = ['id', 'email', 'name', 'tc', 'is_active']  # Include all fields you want to expose
+        fields = ['id', 'email', 'name', 'tc', 'is_active']  
