@@ -42,3 +42,13 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Email and password are required.")
 
         return attrs
+
+# accounts/serializers.py
+
+from rest_framework import serializers
+from .models import Custom_User
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Custom_User
+        fields = ['id', 'email', 'name', 'tc', 'is_active']  # Include all fields you want to expose

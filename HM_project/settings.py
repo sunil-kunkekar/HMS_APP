@@ -47,10 +47,17 @@ INSTALLED_APPS = [
     
 ]
 
+# Add the JWT authentication class to the Django REST Framework configuration
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
 JAZZMIN_SETTINGS = {
-    "site_header": "Ecommerce Admin Dashboard",
-    "site_brand" : "Ecommerce",
-    "copyright"  : "Ecommerce",
+    "site_header": "HMS Admin Dashboard",
+    "site_brand" : "HMS",
+    "copyright"  : "HMS",
 }
 
 SIMPLE_JWT = {
